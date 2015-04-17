@@ -12,3 +12,5 @@ exports.uploadFromFilePath = function(path, cb) {
     cb(result);
   });
 };
+
+exports.uploadStream = cloudinary.uploader.upload_stream;

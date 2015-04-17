@@ -1,6 +1,8 @@
 var data = require('../data/testData');
 var db = require('../db/index');
 var adapter = require('../data/adapter')
+var image_uploader = require('../cloudinary/upload');
+var fs = require('fs');
 
 var useDB = true;
 
@@ -80,6 +82,16 @@ module.exports = {
     } else {
       res.status(202).send('post request was heard');
     }
+  },
+  uploadImage: function(req, res, next) {
+
+    stream = image_uploader.uploadStream(function(result) {
+      console.log(result);
+      res.end()
+    }, { public_id: req.body.title } );
+    console.log(req);
+    fs.createReadStream(req.files.image.path, {encoding: 'binary'}).on('data', stream.write).on('end', stream.end);
+
   }
 
 }
